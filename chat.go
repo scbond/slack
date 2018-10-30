@@ -21,6 +21,7 @@ const (
 	DEFAULT_MESSAGE_ICON_EMOJI       = ""
 	DEFAULT_MESSAGE_MARKDOWN         = true
 	DEFAULT_MESSAGE_ESCAPE_TEXT      = true
+	DEFAULT_MESSAGE_REPLACEORIGINAL  = false
 )
 
 type chatResponseFull struct {
@@ -274,6 +275,16 @@ func MsgOptionAsUser(b bool) MsgOption {
 func MsgOptionUser(userID string) MsgOption {
 	return func(config *sendConfig) error {
 		config.values.Set("user", userID)
+		return nil
+	}
+}
+
+// MsgOptionReplaceOriginal whether or not to replace the original message.
+func MsgOptionReplaceOriginal(b bool) MsgOption {
+	return func(config *sendConfig) error {
+		if b != DEFAULT_MESSAGE_REPLACEORIGINAL {
+			config.values.Set("replace_original", "true")
+		}
 		return nil
 	}
 }
